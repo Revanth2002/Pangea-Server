@@ -1,0 +1,27 @@
+make_auditlog - Send Money & Change Pin
+authn - Creating Users
+redact - Pin Setup and Transacation Invoked SMS Redact
+ip geolocate - IP Intel to get geolocate data and log it.
+ip reputation - IP Intel to get reputation data of IP score for malicious IP
+user intel - User Intel to get the breached data and log it during signup of email
+vault - setup pin encryption and cipher is use. Asymmetric encryption
+
+##Available Products
+1.AuditLog (*)
+2.Embargo
+3.Redact (*)
+4.File Intel
+5.IP Intel (*)
+6.URL Intel
+7.Domain Intel
+8.User Intel (*)
+9.Vault (*)
+10.Auth (*)
+
+
+##Pin Setup
+Encryption - Original pin -> base64 encode -> Cipher is saved
+Decryption - Cipher -> base64 decode -> Original pin is returned
+
+-----------------------------
+Enable disable card is pending
