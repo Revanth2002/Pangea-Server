@@ -54,7 +54,7 @@ class AddedCardsModel(models.Model):
     updated_at = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return f"{self.pid} {self.card_number} {self.card_type} {self.card_expiry} {self.card_cvv} {self.card_holder_name} {self.bank_name}"
+        return f"{self.id}"
     
 
 class NotificationModel(models.Model):

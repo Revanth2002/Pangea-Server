@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 """
 
 from pathlib import Path
-
+from decouple import config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f#u!2h@39_$*5wwihn_sxkyy^nd7)1&rqk0ynrm$$9z_5@qt_z'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = config('DEBUG')
 
 ALLOWED_HOSTS = [
     "*",
@@ -135,23 +135,38 @@ USE_I18N = True
 USE_L10N = True
 USE_TZ = True
 
-PANGEA_API_KEY =  "pts_3p74jnyg2efgzfnzfr7doni6fntjvblw"
 
-PANGEA_DOMAIN = "aws.us.pangea.cloud" #os.getenv("PANGEA_DOMAIN")
-PANGEA_AUDIT_TOKEN = "pts_ubignpagyjsy6c4w3ptlfhs642oso7hf" #os.getenv("PANGEA_AUDIT_TOKEN")
+# settings.py
 
-TWILIO_ACCOUNT_SID = "AC79dbe5c957b93c79a2dbfa42922a586b"
-TWILIO_AUTH_TOKEN = "2b0ff55bfd3b24bd1bc97c388a4d7f92"
+# Set the email backend to SMTP
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+# SMTP configuration
+EMAIL_HOST = config('EMAIL_HOST')  # Replace with your SMTP server's hostname
+EMAIL_PORT = config('EMAIL_PORT') # Replace with your SMTP server's port'
+EMAIL_HOST_USER = config('EMAIL_HOST_USER')  # Replace with your email address
+EMAIL_HOST_PASSWORD = config('EMAIL_HOST_PASSWORD')  # Replace with your email password
+EMAIL_USE_TLS = config('EMAIL_USE_TLS')  # Use TLS encryption for secure communication with the SMTP server
+DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')  # Replace with your email address (optional)
+
+
+PANGEA_API_KEY =  config('PANGEA_API_KEY') #os.getenv("PANGEA_API_KEY")
+
+PANGEA_DOMAIN = config('PANGEA_DOMAIN') #os.getenv("PANGEA_DOMAIN")
+PANGEA_AUDIT_TOKEN = config('PANGEA_AUDIT_TOKEN') #os.getenv("PANGEA_AUDIT_TOKEN")
+
+TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID') #os.getenv("TWILIO_ACCOUNT_SID")
+TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN') #os.getenv("TWILIO_AUTH_TOKEN")
 
 
 
-CASHFREE_APPID="10561330d5f13885191bd786ff316501"
-CASHFREE_SECRET="c4ed3ae9a37ef89c4143b611168b8ea0d9e2d484"
-CASHFREE_PRODUCTION_URL="https://api.cashfree.com/api/v2/cftoken/order"
-CASHFREE_TEST_URL="https://test.cashfree.com/api/v2/cftoken/order"
+CASHFREE_APPID=config('CASHFREE_APPID')
+CASHFREE_SECRET=config('CASHFREE_SECRET')
+CASHFREE_PRODUCTION_URL=config('CASHFREE_PRODUCTION_URL')
+CASHFREE_TEST_URL=config('CASHFREE_TEST_URL')
 
-TEST_CASHFREE_CLIENTID = "CF104868CH9NHCQ1KJHI5CH33TDG"
-TEST_CASHFREE_CLIENTSECRET = "839513ae16b35803dc18e316074b7e5cf00005dd"
+TEST_CASHFREE_CLIENTID = config('TEST_CASHFREE_CLIENTID')
+TEST_CASHFREE_CLIENTSECRET = config('TEST_CASHFREE_CLIENTSECRET')
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/

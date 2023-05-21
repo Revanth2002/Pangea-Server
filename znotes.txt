@@ -18,7 +18,7 @@ vault - setup pin encryption and cipher is use. Asymmetric encryption
 9.Vault (*)
 10.Auth (*)
 
-
+---------------------------------------------
 ##Pin Setup
 Encryption - Original pin -> base64 encode -> Cipher is saved
 Decryption - Cipher -> base64 decode -> Original pin is returned

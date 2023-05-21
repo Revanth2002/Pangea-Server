@@ -19,6 +19,8 @@ urlpatterns = [
     path("notification/",Notifications.as_view(),name="notification"), #added
     path('search/', SearchAPI.as_view(), name='search'), #added
     path("scan-qr/",QrScanChecker.as_view(),name="qr-code"), #added
+    path('verify-card/', VerifyCard.as_view(), name='verify-card'), #added
+    path('check-balance/',CheckBalance.as_view(), name='check-balance'), #added
     path('break/', BreakdownResponse.as_view(), name='break'),
 
 ]
