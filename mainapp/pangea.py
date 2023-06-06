@@ -14,7 +14,7 @@ from pangea.utils import str2str_b64
 
 
 token =  settings.PANGEA_AUDIT_TOKEN #"pts_ubignpagyjsy6c4w3ptlfhs642oso7hf" #os.getenv("PANGEA_AUDIT_TOKEN")
-domain = settings.PANGEA_DOMAIN #"aws.us.pangea.cloud" #os.getenv("PANGEA_DOMAIN")
+domain =  settings.PANGEA_DOMAIN #"aws.us.pangea.cloud" #os.getenv("PANGEA_DOMAIN")
 config = PangeaConfig(domain=domain)
 
 audit = Audit(token, config=config, logger_name="audit")
@@ -112,7 +112,13 @@ def ip_geolocate(ip):
         }      
 
 def ip_reputation(ip):
-
+    # print("----------------------------------------------------")
+    # print(domain)
+    # print(intel)
+    # print(ip)
+    # response = intel.reputation(ip="192.168.189.145", provider="crowdstrike", verbose=True, raw=True)
+    # print(f"Response: {response.result}")
+    # print("----------------------------------------------------")
     try:
         response = intel.reputation(ip=ip, provider="crowdstrike", verbose=True, raw=True)
         print(f"Response: {response.result}")
@@ -122,7 +128,7 @@ def ip_reputation(ip):
             "score": json_res['data']['score'],
             "verdict": json_res['data']['verdict']
         }        
-
+  
         return {
             "status": "success",
             "message": "Ip reputation successfully",
