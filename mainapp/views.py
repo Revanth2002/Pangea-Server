@@ -84,23 +84,27 @@ class LoginUser(APIView):
 
         # PANGEA-IPREPUTATION
         """If the IP verdict is malicious then block the user"""
-        ip_address = request.META.get('REMOTE_ADDR')
-        check_ip = ip_reputation(ip_address)
-        if check_ip['status'] == 'success':
-            if check_ip['body']['verdict'] == 'malicious':
+        try:
+            ip_address = request.META.get('REMOTE_ADDR')
+            check_ip = ip_reputation(ip_address)
+            if check_ip['status'] == 'success':
+                if check_ip['body']['verdict'] == 'malicious':
+                    return display_response(
+                        msg="FAIL",
+                        err="Login failed. Malicious IP Found",
+                        body=None,
+                        statuscode=status.HTTP_404_NOT_FOUND
+                    )
+            else:
                 return display_response(
                     msg="FAIL",
                     err="Login failed. Malicious IP Found",
                     body=None,
                     statuscode=status.HTTP_404_NOT_FOUND
                 )
-        else:
-            return display_response(
-                msg="FAIL",
-                err="Login failed. Malicious IP Found",
-                body=None,
-                statuscode=status.HTTP_404_NOT_FOUND
-            )
+        except Exception as e:
+            print("-----------------------------------------------")
+            print(e)
 
         # gets the userinstance in case of old user or creates a new user instance
         user_instance = UserModel.objects.filter(mobile=number).first()
@@ -137,9 +141,9 @@ class LoginUser(APIView):
                         request, "Verify your OTP for ZeroPay", txt_temp, user_instance.email)
                     print(f"Mail sent to {mail_res}")
                     """Send the otp to the user"""
-                    # twilio_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
-                    print(txt_temp)
-                    twilio_res = "success"
+                    msg_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
+                    print(msg_res)
+                    # twilio_res = "success"
                 except Exception as e:
                     print(e)
         except Exception as e:
@@ -928,8 +932,11 @@ class SendPayment(APIView):
                     mail_res = sending_mail(
                         request, "Verify your OTP for ZeroPay", txt_temp, user_instance.email)
                     print(f"Mail sent to {mail_res}")
-                    # twilio_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
-                    twilio_res = "Need to add"
+
+                    msg_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
+                    print(msg_res)
+                    # twilio_res = "success"
+
                 except Exception as e:
                     print(e)
         except Exception as e:
@@ -1063,7 +1070,9 @@ class SetupPin(APIView):
                     print(f"Mail sent to {mail_res}")
 
                     twilio_res = "Cheanged"
-                    # twilio_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
+                    msg_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
+                    print(msg_res)
+
                 except Exception as e:
                     print(e)
         except Exception as e:
@@ -1392,9 +1401,9 @@ class VerifyCard(APIView):
             print(f"Mail sent to {mail_res}")
 
             """Send a msg to the user"""
-            # twilio_res = send_sms_to_mobile(context_txt, get_user.mobile)
-            # print(twilio_res)
-
+            msg_res = send_sms_to_mobile(context_txt, get_user.mobile)
+            print(msg_res)
+            # twilio_res = "success"
         except Exception as e:
             print(e)
 
@@ -1418,13 +1427,37 @@ class BreakdownResponse(APIView):
     def get(self, request, **kwargs):
         data = request.data
         # Get the IP address of the client
-        print(request.META)
-        print(request.META.get('REMOTE_ADDR'))
+        # print(request.META)
+        # print(request.META.get('REMOTE_ADDR'))
+
+
+        # PANGEA-IPREPUTATION
+        """If the IP verdict is malicious then block the user"""
+        try:
+            ip_address = request.META.get('REMOTE_ADDR')
+            check_ip = ip_reputation(ip_address)
+            if check_ip['status'] == 'success':
+                if check_ip['body']['verdict'] == 'malicious':
+                    return display_response(
+                        msg="FAIL",
+                        err="Login failed. Malicious IP Found",
+                        body=None,
+                        statuscode=status.HTTP_404_NOT_FOUND
+                    )
+            else:
+                return display_response(
+                    msg="FAIL",
+                    err="Login failed. Malicious IP Found",
+                    body=None,
+                    statuscode=status.HTTP_404_NOT_FOUND
+                )
+        except Exception as e:
+            print(e)
 
         """Send a email to the user"""
-        mail_res = sending_mail(
-            request, "Verify your OTP for ZeroPay", "Testing mail server", "revanth.e0120013@sret.edu.in")
-        print(f"Mail sent to {mail_res}")
+        # mail_res = sending_mail(
+        #     request, "Verify your OTP for ZeroPay", "Testing mail server", "revanth.e0120013@sret.edu.in")
+        # print(f"Mail sent to {mail_res}")
 
         return display_response(
             msg="SUCCESS",

@@ -168,6 +168,10 @@ CASHFREE_TEST_URL=config('CASHFREE_TEST_URL')
 TEST_CASHFREE_CLIENTID = config('TEST_CASHFREE_CLIENTID')
 TEST_CASHFREE_CLIENTSECRET = config('TEST_CASHFREE_CLIENTSECRET')
 
+MSG91_AUTH_KEY = config('MSG91_AUTH_KEY')
+MSG91_DLT_TE_ID = config("MSG91_DLT_TE_ID")
+
+
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
