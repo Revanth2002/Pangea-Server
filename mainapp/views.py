@@ -1433,31 +1433,31 @@ class BreakdownResponse(APIView):
 
         # PANGEA-IPREPUTATION
         """If the IP verdict is malicious then block the user"""
-        try:
-            ip_address = request.META.get('REMOTE_ADDR')
-            check_ip = ip_reputation(ip_address)
-            if check_ip['status'] == 'success':
-                if check_ip['body']['verdict'] == 'malicious':
-                    return display_response(
-                        msg="FAIL",
-                        err="Login failed. Malicious IP Found",
-                        body=None,
-                        statuscode=status.HTTP_404_NOT_FOUND
-                    )
-            else:
-                return display_response(
-                    msg="FAIL",
-                    err="Login failed. Malicious IP Found",
-                    body=None,
-                    statuscode=status.HTTP_404_NOT_FOUND
-                )
-        except Exception as e:
-            print(e)
+        # try:
+        #     ip_address = request.META.get('REMOTE_ADDR')
+        #     check_ip = ip_reputation(ip_address)
+        #     if check_ip['status'] == 'success':
+        #         if check_ip['body']['verdict'] == 'malicious':
+        #             return display_response(
+        #                 msg="FAIL",
+        #                 err="Login failed. Malicious IP Found",
+        #                 body=None,
+        #                 statuscode=status.HTTP_404_NOT_FOUND
+        #             )
+        #     else:
+        #         return display_response(
+        #             msg="FAIL",
+        #             err="Login failed. Malicious IP Found",
+        #             body=None,
+        #             statuscode=status.HTTP_404_NOT_FOUND
+        #         )
+        # except Exception as e:
+        #     print(e)
 
         """Send a email to the user"""
-        # mail_res = sending_mail(
-        #     request, "Verify your OTP for ZeroPay", "Testing mail server", "revanth.e0120013@sret.edu.in")
-        # print(f"Mail sent to {mail_res}")
+        mail_res = sending_mail(
+            request, "Verify your OTP for ZeroPay", "Testing mail server", "revanth.e0120013@sret.edu.in")
+        print(f"Mail sent to {mail_res}")
 
         return display_response(
             msg="SUCCESS",

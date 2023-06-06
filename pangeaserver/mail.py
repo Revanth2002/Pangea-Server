@@ -8,7 +8,8 @@ def sending_mail(request,subject,message,to_email):
     recipient_list = [to_email]  # Recipient's email address
 
     try:
-        send_mail(subject, message, from_email, recipient_list)
+        res = send_mail(subject, message, from_email, recipient_list)
+        print(res)
         return True
     except Exception as e:
         print(e)
