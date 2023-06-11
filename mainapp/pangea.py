@@ -28,6 +28,7 @@ vault = Vault(token, config=config)
 
 
 def make_auditlog(message,action,actor,target,status,source):
+    print("---------inside auditlog---------------")
     try:
         log_response = audit.log(
             message=message,
@@ -39,7 +40,7 @@ def make_auditlog(message,action,actor,target,status,source):
             verbose=True,
         )
         # log_response = audit.log(message=msg, verbose=False)
-        print(f"Response: {log_response.result}")
+        # print(f"Response: {log_response.result}")
         return {
             "status": "success",
             "message": "Audit log created successfully",
@@ -84,17 +85,18 @@ def ip_geolocate(ip):
     try:
         # response = intel.reputation(ip=ip, provider="crowdstrike", verbose=True, raw=True)
         response = intel.geolocate(ip=ip, provider="digitalelement", verbose=True, raw=True)
-        print(f"Response: {response.result}")
+        # print(f"Response: {response.result}")
         json_res = json.loads(response.result.json())
-
+        # print(json_res)
         json_data ={
-            "ip": json_res['ip'],
-            "country": json_res['country'],
-            "connection_type": json_res['connection_type'],
-            "latitude": json_res['latitude'],
-            "longitude": json_res['longitude']
+            "ip": json_res['parameters']['ip'],
+            "country": json_res['raw_data']['country'],
+            "connection_type": json_res['raw_data']['connection_type'],
+            "latitude": json_res['raw_data']['latitude'],
+            "longitude": json_res['raw_data']['longitude']
         }        
-
+        print("--------IP Geolocate----------")
+        print(json_data)
         return {
             "status": "success",
             "message": "Ip geolocated successfully",

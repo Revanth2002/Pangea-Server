@@ -102,7 +102,7 @@ WSGI_APPLICATION = 'pangeaserver.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db1.sqlite3',
     }
 }
 
@@ -150,10 +150,9 @@ EMAIL_USE_TLS = config('EMAIL_USE_TLS')  # Use TLS encryption for secure communi
 DEFAULT_FROM_EMAIL = config('DEFAULT_FROM_EMAIL')  # Replace with your email address (optional)
 
 
-PANGEA_API_KEY =  config('PANGEA_API_KEY') #os.getenv("PANGEA_API_KEY")
-
-PANGEA_DOMAIN = config('PANGEA_DOMAIN') #os.getenv("PANGEA_DOMAIN")
-PANGEA_AUDIT_TOKEN = config('PANGEA_AUDIT_TOKEN') #os.getenv("PANGEA_AUDIT_TOKEN")
+PANGEA_API_KEY =  config('PANGEA_API_KEY') 
+PANGEA_DOMAIN = config('PANGEA_DOMAIN') 
+PANGEA_AUDIT_TOKEN = config('PANGEA_AUDIT_TOKEN') 
 
 TWILIO_ACCOUNT_SID = config('TWILIO_ACCOUNT_SID') #os.getenv("TWILIO_ACCOUNT_SID")
 TWILIO_AUTH_TOKEN = config('TWILIO_AUTH_TOKEN') #os.getenv("TWILIO_AUTH_TOKEN")

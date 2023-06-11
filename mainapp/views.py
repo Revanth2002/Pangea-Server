@@ -930,7 +930,7 @@ class SendPayment(APIView):
                 try:
                     """Send a email to the user"""
                     mail_res = sending_mail(
-                        request, "Verify your OTP for ZeroPay", txt_temp, user_instance.email)
+                        request, "Payment Transfer", txt_temp, user_instance.email)
                     print(f"Mail sent to {mail_res}")
 
                     msg_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
@@ -943,14 +943,19 @@ class SendPayment(APIView):
             print(e)
 
         try:
+            print("------target output------")
             target_output = f"User-{user_instance.pid}",
             # PANGEA-IPGEOLOCATE
             ip_break = ip_geolocate(request.META.get('REMOTE_ADDR'))
+            print(ip_break)
+            print("----ip break above-----")
             if ip_break["status"] == "success":
                 # ip_break = ip_break["body"]
-                target_output = f"{ip_break['body']['ip']} ({ip_break['body']['country_name']}) [{ip_break['body']['latitude']}|{ip_break['body']['longitude']}]"
+                target_output = f"{ip_break['body']['ip']} ({ip_break['body']['country']}) [{ip_break['body']['latitude']}|{ip_break['body']['longitude']}]"
+            
+            print(target_output)
+            # PANGEA-LOG
 
-            # PANGEA-AUDITLOG
             pangea_res = make_auditlog(
                 message=f"Payment of {amount} is sent to {user_instance.name} from {user.name}",
                 action="Payment Transfer",
@@ -959,6 +964,8 @@ class SendPayment(APIView):
                 status="SUCCESS",
                 source="Mobile Transfer"
             )
+            print("----pangea res--------")
+            print(pangea_res)
         except Exception as e:
             print(e)
 
@@ -1034,7 +1041,8 @@ class SetupPin(APIView):
         if user_instance.is_pin_set:
             msg_keyword = "changed"
             """User Pin Checking"""
-            old_pin_encrypt = encrypt_vault(old_pin, ZPAY_PIN_VAULT)
+            old_pin_encrypt = decrypt_vault(user_instance.pin, ZPAY_PIN_VAULT)
+            #encrypt_vault(old_pin, ZPAY_PIN_VAULT)
             if old_pin_encrypt['status'] != "success":
                 return display_response(
                     msg="FAIL",
@@ -1042,9 +1050,9 @@ class SetupPin(APIView):
                     body=None,
                     statuscode=status.HTTP_500_INTERNAL_SERVER_ERROR
                 )
-            cipher_old_pin = old_pin_encrypt['body']['cipher_text']
-
-            if user_instance.pin != cipher_old_pin:
+            #cipher_old_pin = old_pin_encrypt['body']['cipher_text']
+            plain_pin = old_pin_encrypt['body']['plain_text']
+            if old_pin != plain_pin:
                 return display_response(
                     msg="FAIL",
                     err="Pin is incorrect",
@@ -1070,8 +1078,8 @@ class SetupPin(APIView):
                     print(f"Mail sent to {mail_res}")
 
                     twilio_res = "Cheanged"
-                    msg_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
-                    print(msg_res)
+                    # msg_res = send_sms_to_mobile(txt_temp, user_instance.mobile)
+                    # print(msg_res) TODO
 
                 except Exception as e:
                     print(e)
@@ -1083,20 +1091,26 @@ class SetupPin(APIView):
             notify_res = create_notification(
                 pid=pid,
                 title=f"Transaction Pin {msg_keyword}",
-                message=f"Your pin has been {msg_keyword} successfully",
+                msg=f"Your pin has been {msg_keyword} successfully",
             )
         except Exception as e:
             print(e)
 
+        print("-----going into audit log part-------")
         try:
+            print("------target output------")
             target_output = f"User-{user_instance.pid}",
             # PANGEA-IPGEOLOCATE
             ip_break = ip_geolocate(request.META.get('REMOTE_ADDR'))
+            print(ip_break)
+            print("----ip break above-----")
             if ip_break["status"] == "success":
                 # ip_break = ip_break["body"]
-                target_output = f"{ip_break['body']['ip']} ({ip_break['body']['country_name']}) [{ip_break['body']['latitude']}|{ip_break['body']['longitude']}]"
-
+                target_output = f"{ip_break['body']['ip']} ({ip_break['body']['country']}) [{ip_break['body']['latitude']}|{ip_break['body']['longitude']}]"
+            
+            print(target_output)
             # PANGEA-LOG
+
             pangea_res = make_auditlog(
                 message=f"Pin is set for {user_instance.name}",
                 action="Pin Set",
@@ -1105,6 +1119,8 @@ class SetupPin(APIView):
                 status="SUCCESS",
                 source="Mobile Pin Set"
             )
+            print("----pangea res--------")
+            print(pangea_res)
         except Exception as e:
             print(e)
 

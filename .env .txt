@@ -1,0 +1,23 @@
+DEBUG = True
+
+EMAIL_USE_TLS=True
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '[Your-Email]'
+EMAIL_HOST_PASSWORD = '[Your-Password]' 
+
+DEFAULT_FROM_EMAIL='[Your-Email]'
+
+PANGEA_API_KEY =  "[Your-Pangea-API-Key]"
+PANGEA_DOMAIN = "[Your-Pangea-Domain]"
+PANGEA_AUDIT_TOKEN =  "[Your-Pangea-Audit-Token]"
+
+TWILIO_ACCOUNT_SID = "[Your-Twilio-Account-SID]"
+TWILIO_AUTH_TOKEN = "[Your-Twilio-Auth-Token]"
+
+CASHFREE_APPID="[Your-Cashfree-App-ID]"
+CASHFREE_SECRET="[Your-Cashfree-Secret]"
+CASHFREE_PRODUCTION_URL="https://api.cashfree.com/api/v2/cftoken/order"
+CASHFREE_TEST_URL="https://test.cashfree.com/api/v2/cftoken/order"
+
+
