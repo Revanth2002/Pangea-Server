@@ -3,7 +3,7 @@
 
 ZeroPay is a digital payment platform which allows users to make payments, send money, and perform various financial transactions using their smartphones or other compatible devices. ZeroPay securely stores credit/debit card information, bank account details, and other payment methods via pangea api services, enabling users to make purchases online, in physical stores, and transfer money to other individuals. 
 
-**Download APK** : ![apk](https://github.com/Revanth2002/Pangea-Server/releases/tag/v1.0)
+**Download APK** : [apk](https://github.com/Revanth2002/Pangea-Server/releases/tag/v1.0)
 
 ## Highly Secured with Pangea Services
 
