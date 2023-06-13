@@ -83,6 +83,6 @@ Use the following test credentials to login/signup
 ```bash
   Mobile number : 9876543210
   OTP : 123456
-  Email : <your-email>
+  Transaction Pin : 1234
 ```
 
